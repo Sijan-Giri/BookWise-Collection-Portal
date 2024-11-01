@@ -41,6 +41,20 @@ exports.getBooks = async(req,res) => {
     }
 }
 
+exports.getSingleBook = async(req,res) => {
+    const {id} = req.params;
+    if(!id) {
+        return res.status(404).json({
+            message : "Please provide id"
+        })
+    }
+    const singleBook = await Book.findById(id);
+    res.status(200).json({
+        message : "Single book fetched successfully",
+        data : singleBook
+    })
+}
+
 exports.updateBook = async(req,res) => {
    try {
     const {id} = req.params;
