@@ -13,7 +13,8 @@ exports.createBook = async(req,res) => {
         bookPrice,
         isbnNumber,
         authorName,
-        publishedAt
+        publishedAt,
+        bookImageUrl : req.file.filename
     });
     res.status(200).json({
         message : "Book created successfully",

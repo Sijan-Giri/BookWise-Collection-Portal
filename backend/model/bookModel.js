@@ -17,6 +17,9 @@ const bookSchema = new Schema({
     },
     publishedAt : {
         type : Date
+    },
+    bookImageUrl : {
+        type : String
     }
 })
 
