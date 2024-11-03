@@ -1,7 +1,15 @@
 const Book = require("../model/bookModel");
+const fs = require("fs");
 
 exports.createBook = async(req,res) => {
     try {
+        let filename;
+        if(!req.file) {
+            filename = "https://cdn.pixabay.com/photo/2015/11/19/21/10/glasses-1052010_640.jpg"
+        }
+        else {
+            filename = "http://localhost:3000/" + req.file.filename
+        }
         const { bookName , bookPrice , isbnNumber , authorName , publishedAt } = req.body;
     if(!bookName || !bookPrice || !isbnNumber || !authorName || !publishedAt) {
         return res.status(400).json({
@@ -14,7 +22,7 @@ exports.createBook = async(req,res) => {
         isbnNumber,
         authorName,
         publishedAt,
-        bookImageUrl : req.file.filename
+        bookImageUrl : filename
     });
     res.status(200).json({
         message : "Book created successfully",
@@ -69,13 +77,30 @@ exports.updateBook = async(req,res) => {
         return res.status(400).json({
             message : "Please provide bookName , bookPrice , isbnNumber , authorName , publishedAt"
         })
+    };
+    const oldData = await Book.findById(id);
+    let filename;
+    if(req.file) {
+        const oldImagePath = oldData.bookImageUrl;
+        const localhostLength = "http://localhost:3000/".length
+        const oldImagePathAfterCut = oldImagePath.slice(localhostLength);
+        fs.unlink(`storage/${oldImagePathAfterCut}`,(err) => {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                console.log("File Deleted Successfully")
+            }
+        });
+        filename = "http://localhost:3000/" + req.file.filename
     }
     const updatedBook = await Book.findByIdAndUpdate(id,{
         bookName,
         bookPrice,
         isbnNumber,
         authorName,
-        publishedAt
+        publishedAt,
+        bookImageUrl : filename
     },{new : true});
     res.status(200).json({
         message : "Book updated successfully",
@@ -100,6 +125,18 @@ exports.deleteBook = async(req,res) => {
             message : "Book not found"
         })
     };
+    if(book.bookImageUrl) {
+        const localhostUrlLength = "http://localhost:3000/".length;
+        const oldImageUrlAfterCut = book.bookImageUrl.slice(localhostUrlLength);
+        fs.unlink(`storage/${oldImageUrlAfterCut}`,(err) => {
+            if(err) {
+                console.log(err)
+            }
+            else {
+                console.log("File deleted successfully")
+            }
+        })
+    }
     res.status(200).json({
         message : "Book deleted successfully"
     })
