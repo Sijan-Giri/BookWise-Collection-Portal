@@ -82,3 +82,45 @@ export function deleteBook(id) {
          }
     }
 }
+
+export function createBook(data) {
+    return async function createBookThunk(dispatch) {
+        try {
+            dispatch(setStatus(STATUSES.LOADING));
+            const response = await axios.post(`http://localhost:3000/createBook`,data,{
+                headers : {
+                    "Content-Type" : "multipart/form-data"
+                }
+            });
+            if(response.status == 200) {
+                dispatch(setStatus(STATUSES.SUCCESS));
+            }
+            else {
+                dispatch(setStatus(STATUSES.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR))
+        }
+    }
+}
+
+export function editBook(data,id) {
+    return async function editBookThunk(dispatch) {
+        try {
+            dispatch(setStatus(STATUSES.LOADING));
+            const response = await axios.patch(`http://localhost:3000/updateBook/${id}`,data,{
+                headers : {
+                    "Content-Type" : "multipart/form-data"
+                }
+            })
+            if(response.status == 200) {
+                dispatch(setStatus(STATUSES.SUCCESS));
+            }
+            else {
+                dispatch(setStatus(STATUSES.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR))
+        }
+    }
+}

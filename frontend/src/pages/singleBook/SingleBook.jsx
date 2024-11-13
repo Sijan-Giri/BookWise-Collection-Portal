@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import Navbar from '../global/Navbar';
 import Footer from '../global/Footer';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteBook, getSingleBook } from '../../store/bookSlice';
+import { deleteBook, getSingleBook, STATUSES } from '../../store/bookSlice';
 
 const SingleBook = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {id} = useParams()
-  const {singleBook:book} = useSelector((state) => state.book);
+  const {singleBook:book , status} = useSelector((state) => state.book);
 
   useEffect(() => {
     dispatch(getSingleBook(id));
@@ -17,6 +18,9 @@ const SingleBook = () => {
 
   const handleDelete = () => {
     dispatch(deleteBook(id))
+    if(status == STATUSES.SUCCESS) {
+      navigate("/")
+    }
   }
 
   return (
@@ -34,7 +38,7 @@ const SingleBook = () => {
         <p className="text-lg mb-2">Price: ${book?.bookPrice}</p>
         <p className="text-lg mb-4">Published At: {new Date(book?.publishedAt).toLocaleDateString()}</p>
         <div className="flex space-x-4">
-          <Link to="/edit/book"><button className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 rounded text-white font-semibold transition duration-300">
+          <Link to={`/edit/book/${id}`}><button className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 rounded text-white font-semibold transition duration-300">
             Edit Book
           </button></Link>
           <button className="px-4 py-2 bg-red-500 hover:bg-red-600 rounded text-white font-semibold transition duration-300" onClick={handleDelete}>

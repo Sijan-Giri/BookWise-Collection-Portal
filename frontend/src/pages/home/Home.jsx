@@ -23,19 +23,15 @@ function Home() {
       <p className="text-lg md:text-xl mb-6">
         Manage, organize, and explore your personal library with ease.
       </p>
-      <a href="#explore" className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded-full">
-        Explore Now
-      </a>
     </div>
 
     {/* Flex container to display cards horizontally */}
-    <div className="container mx-auto px-4 py-10 flex flex-wrap gap-8 ">
-      {datas?.length > 0 && datas?.map((data) => (
-        <Card data={data}/>
-      ))}
-    </div>
+    <div className="container mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  {datas?.length > 0 && datas?.map((data) => (
+    <Card data={data} />
+  ))}
+</div>
   </div>
-
   <Footer />
 </>
 

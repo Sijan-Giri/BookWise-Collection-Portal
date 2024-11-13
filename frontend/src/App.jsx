@@ -16,7 +16,7 @@ function App() {
       <Route path='/' element={<Home />}/>
       <Route path='/add/book' element={<AddBook />}/>
       <Route path='/bookdetail/:id' element={<SingleBook />}/>
-      <Route path='/edit/book' element={<EditBook />}/>
+      <Route path='/edit/book/:id' element={<EditBook />}/>
     </Routes>
     </BrowserRouter>
     </Provider>
