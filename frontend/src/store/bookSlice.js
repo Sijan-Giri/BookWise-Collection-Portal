@@ -34,7 +34,7 @@ export function getBooks() {
     return async function getBooksThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.get("http://localhost:3000/getBooks");
+            const response = await axios.get("https://bookwise-collection-portal.onrender.com/getBooks");
             if(response.status == 200) {
                 dispatch(setData(response.data.data));
                 dispatch(setStatus(STATUSES.SUCCESS))
@@ -52,7 +52,7 @@ export function getSingleBook(id){
     return async function getSingleBookThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.get(`http://localhost:3000/getBook/${id}`);
+            const response = await axios.get(`https://bookwise-collection-portal.onrender.com/getBook/${id}`);
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS));
                 dispatch(setSingleBook(response.data.data))
@@ -70,7 +70,7 @@ export function deleteBook(id) {
     return async function deleteBookThunk(dispatch) {
          try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.delete(`http://localhost:3000/deleteBook/${id}`);
+            const response = await axios.delete(`https://bookwise-collection-portal.onrender.com/deleteBook/${id}`);
             if(response.status === 200) {
                 dispatch(setStatus(STATUSES.SUCCESS));
             }
@@ -87,7 +87,7 @@ export function createBook(data) {
     return async function createBookThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.post(`http://localhost:3000/createBook`,data,{
+            const response = await axios.post(`https://bookwise-collection-portal.onrender.com/createBook`,data,{
                 headers : {
                     "Content-Type" : "multipart/form-data"
                 }
@@ -108,7 +108,7 @@ export function editBook(data,id) {
     return async function editBookThunk(dispatch) {
         try {
             dispatch(setStatus(STATUSES.LOADING));
-            const response = await axios.patch(`http://localhost:3000/updateBook/${id}`,data,{
+            const response = await axios.patch(`https://bookwise-collection-portal.onrender.com/updateBook/${id}`,data,{
                 headers : {
                     "Content-Type" : "multipart/form-data"
                 }
