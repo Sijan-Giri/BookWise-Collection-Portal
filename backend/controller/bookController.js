@@ -8,7 +8,7 @@ exports.createBook = async(req,res) => {
             filename = "https://cdn.pixabay.com/photo/2015/11/19/21/10/glasses-1052010_640.jpg"
         }
         else {
-            filename = "http://localhost:3000/" + req.file.filename
+            filename = "https://bookwise-collection-portal.onrender.com/" + req.file.filename
         }
         const { bookName , bookPrice , isbnNumber , authorName , publishedAt } = req.body;
     if(!bookName || !bookPrice || !isbnNumber || !authorName || !publishedAt) {
@@ -82,7 +82,7 @@ exports.updateBook = async(req,res) => {
     let filename;
     if(req.file) {
         const oldImagePath = oldData.bookImageUrl;
-        const localhostLength = "http://localhost:3000/".length
+        const localhostLength = "https://bookwise-collection-portal.onrender.com/".length
         const oldImagePathAfterCut = oldImagePath.slice(localhostLength);
         fs.unlink(`storage/${oldImagePathAfterCut}`,(err) => {
             if(err) {
@@ -92,7 +92,7 @@ exports.updateBook = async(req,res) => {
                 console.log("File Deleted Successfully")
             }
         });
-        filename = "http://localhost:3000/" + req.file.filename
+        filename = "https://bookwise-collection-portal.onrender.com/" + req.file.filename
     }
     const updatedBook = await Book.findByIdAndUpdate(id,{
         bookName,
@@ -126,7 +126,7 @@ exports.deleteBook = async(req,res) => {
         })
     };
     if(book.bookImageUrl) {
-        const localhostUrlLength = "http://localhost:3000/".length;
+        const localhostUrlLength = "https://bookwise-collection-portal.onrender.com/".length;
         const oldImageUrlAfterCut = book.bookImageUrl.slice(localhostUrlLength);
         fs.unlink(`storage/${oldImageUrlAfterCut}`,(err) => {
             if(err) {
